@@ -7,6 +7,7 @@ namespace Habit_Tracker
     internal class Program
     {
         public static string ConnectionString = "Data Source=HabitTracker.db";
+        // I know you mentioned top level statements are unnecessary but the build kept failing without it 
         static void Main(string[] args)
         {
             using var Connection = new SqliteConnection(ConnectionString);
@@ -73,7 +74,7 @@ namespace Habit_Tracker
             var PrintTable = Connection.CreateCommand();
             PrintTable.CommandText = $@"SELECT * FROM DrinkingWater";
 
-            var tableList = new List<DrinkWater>();
+            List<DrinkWater> tableList = new();
             using var reader = PrintTable.ExecuteReader();
             if (!reader.Read()) Console.WriteLine("\tHabit Tracker is empty");
             while (reader.Read())
