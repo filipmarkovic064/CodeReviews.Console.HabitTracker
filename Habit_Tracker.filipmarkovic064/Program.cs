@@ -2,12 +2,10 @@
 using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Habit_Tracker
-{
     internal class Program
     {
         public static string ConnectionString = "Data Source=HabitTracker.db";
-        // I know you mentioned top level statements are unnecessary but the build kept failing without it 
+
         static void Main(string[] args)
         {
             using var Connection = new SqliteConnection(ConnectionString);
@@ -61,14 +59,10 @@ namespace Habit_Tracker
                     break;
             }
         }
+    
         private static void ViewHabits()
         {
-            /*Clear the Console to easier see all of habits. We then go through all the elements in the table and create classes.
-           We add said classes to a List and then use the List to print all of the values in a formatted way. 
-           */
-
             Console.Clear();
-            
             using var Connection = new SqliteConnection(ConnectionString);
             Connection.Open();
             var PrintTable = Connection.CreateCommand();
@@ -96,6 +90,7 @@ namespace Habit_Tracker
 
             Connection.Close();
         }
+        
         private static void InsertHabit()
         {
             Console.Clear();
@@ -124,6 +119,7 @@ namespace Habit_Tracker
             Console.ReadKey();
             MainMenu();
         }
+
         private static void DeleteHabit()
         {
             Console.Clear();
@@ -147,6 +143,7 @@ namespace Habit_Tracker
             Console.ReadKey();
             MainMenu();
         }
+
         private static void UpdateHabit()
         {
             Console.Clear();
@@ -183,8 +180,8 @@ namespace Habit_Tracker
                     UpdateHabit();
                     break;
             }
-
             int SuccessCheck = UpdateValue.ExecuteNonQuery();
+
             if (SuccessCheck >= 0)
             {
                 Console.WriteLine($"Successfully Updated Habit with ID {HabitId}, press anything to go back to main menu");
@@ -198,7 +195,6 @@ namespace Habit_Tracker
                 MainMenu();
             }
             connection.Close();
-
         }
 
         private static string GetUserDate()
@@ -206,12 +202,15 @@ namespace Habit_Tracker
             Console.WriteLine("\n\tPlease input a valid date (Format: dd-mm-yyyy)");
             Console.WriteLine("\tAlternatively type 0 to cancel;");
             string? Date = Console.ReadLine();
+            
             if (Date == "0") MainMenu();
+            
             while (!DateTime.TryParseExact(Date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
             {
                 Console.WriteLine("\n\tInvalid Date Format, please input a valid date (Format: dd-mm-yyyy)");
                 Console.WriteLine("\tAlternatively type 0 to cancel;");
                 Date = Console.ReadLine();
+    
                 if (Date == "0")
                 {
                     Console.WriteLine("'\tInsertion Cancelled");
@@ -221,6 +220,7 @@ namespace Habit_Tracker
             }
             return Date;
         }
+
         internal class DrinkWater
         {
             public int ID { get; set; }
@@ -228,4 +228,3 @@ namespace Habit_Tracker
             public DateTime Date { get; set; }
         }
     }
-}
